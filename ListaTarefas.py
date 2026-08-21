@@ -1,4 +1,4 @@
-# 1. Lista de tarefas
+# Lista de tarefas
 # Crie um programa que permita:
 # Adicionar uma tarefa
 # Ver todas as tarefas
@@ -7,7 +7,12 @@
 # Salve tudo em tarefas.txt.
 
 def adicionarTarefas():
-    qt = int(input('Quantas tarefas deseja adicionar? '))
+    while True:
+        try:
+            qt = int(input('Quantas tarefas deseja adicionar? '))
+            break
+        except ValueError:
+            print("Opção inválida!")
     for i in range (qt):
         tarefa = input('Nome da tarefa: ')
         with open ('listaTarefas.txt','a') as arquivo:
@@ -16,11 +21,20 @@ def adicionarTarefas():
 def verTarefas():
     with open('listaTarefas.txt', 'r') as arquivo:
         conteudo = arquivo.read()
-        print(conteudo)
+        if conteudo == '':
+            print('A lista de tarefas está vazia!')
+        else:
+            print(conteudo)
 
 def removerTarefas():
-    qt = int(input('Quantas tarefas deseja remover? '))
+    while True:
+        try:
+            qt = int(input('Quantas tarefas deseja remover? '))
+            break
+        except ValueError:
+            print("Opção inválida!")
     for i in range(qt):
+        encontrou = False  # Para avisar que a remocao foi efetuada apenas se a tarefa existir
         remover = input('Qual o nome da tarefa que deseja remover? ')
         with open('listaTarefas.txt', 'r') as arquivo:
             linhas = arquivo.readlines()
@@ -28,6 +42,12 @@ def removerTarefas():
             for linha in linhas:
                 if linha.strip()  != remover:
                     arquivo.write(linha)
+                else:
+                    encontrou = True
+            if encontrou == True:
+                print(f"Tarefa '{remover}' removida com sucesso!")
+            else:
+                print(f"A tarefa '{remover}' não estava cadastrada!")
 
 
 
@@ -52,4 +72,6 @@ while True:
         break
     else:
         print('Opção inválida!!!')
+
+
 
